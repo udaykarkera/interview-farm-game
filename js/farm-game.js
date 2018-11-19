@@ -54,10 +54,48 @@ $(document).ready(function(){
                     alert('Invalid input. Kindly contact authorized technician.')
                 }
                 else {
+                    farmDetails = data;
+
+                    // Dynamically set the table rows here
+                    var tableRowsHtml = '<tr><td>'+ farmDetails['turnCount']
+                        +'</td>';
+                    // Handle scenario via JS and display message
+                    // var farmerDeadFlag = false;
+                    for (var j in farmEntities) {
+                        var cellValue = '';
+                        var cellColor = '';
+                        if (farmDetails['eaters'][farmEntities[j]] == 0) {
+                            cellValue = 'Fed';
+                        }
+                        else if(farmDetails['eaters'][farmEntities[j]] == undefined)
+                        {
+                            if (farmEntities[j] == farmerTitle) {
+                                // Handle scenario via JS and display message
+                                // farmerDeadFlag = true;
+                            }
+                            cellValue = 'Dead';
+                            cellColor = 'style="background-color:red"';
+                            str = farmEntities[j].replace(/\s+/g, '-');
+                            $('#'+str).css('background-color', 'red');
+                        }
+                        tableRowsHtml = tableRowsHtml + '<td '+ cellColor +'>'
+                            + cellValue + '</td>';
+                    }
+                    tableRowsHtml = tableRowsHtml + '</tr>';
+                    $('#fed-chart').append(tableRowsHtml);
+
+
+                    if (farmDetails['turnCount'] == totalturnCount) {
+                        $('#feed-anyone').prop('disabled', true);
+                    }
                 }
             }
         );
 
+        // Scroll down towards the button after every turn
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#feed-anyone").offset().top
+        }, 2);
 
     });
 

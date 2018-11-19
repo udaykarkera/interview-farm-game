@@ -4,6 +4,10 @@ Class FarmGame extends Farm {
 
     public $eaters_turn_count = [];
     public $turn_count = 0; // this is to maintain each turn count
+    public $fed_to; // current one to be fed
+    public $c_alive = []; // categories who survived the turn
+    public $alive = []; // ones who survived the turn (not in use currently)
+    public $dead = []; // Ones who died on the turn
 
     // We can maintain this as a constant
     public $total_turn_count = 50; // max turns
@@ -56,6 +60,30 @@ Class FarmGame extends Farm {
         return false;
     }
 
+    // Chooses the one to be fed
+    public function randomMemberToBeFed() {
+
+        /**
+         * PHP Skill: use native functions
+         * Get all keys of an array in an array
+         * Pick a random value from an array
+         */
+        $only_eaters_arr = array_keys($this->eaters_turn_count);
+        $get_rand_eater_key = array_rand($only_eaters_arr);
+        $this->fed_to = $only_eaters_arr[$get_rand_eater_key];
+    }
+
+
+    // send response for the particular scenario
+    public function endCurrentTurn() {
+        $data = [
+            'eaters' => $this->eaters_turn_count,
+            'turnCount' => $this->turn_count,
+            'message' => $this->game_msg
+        ];
+        echo json_encode($data);
+        exit;
+    }
 
     public function invalidInput() {
         $data = [

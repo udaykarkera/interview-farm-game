@@ -23,6 +23,11 @@ $game_obj = new FarmPlay;
 // Validate input 
 if ($game_obj->validateInput($input)) {
 
+    $game_obj->playTurn();
+
+
+    // Separated response module function
+    $game_obj->endCurrentTurn();
 }
 else {
     $game_obj->invalidInput();
