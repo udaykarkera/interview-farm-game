@@ -4,6 +4,8 @@ function farmGameAlert(msg, element) {
     $("#display-"+element).html(msg);
 }
 
+enterKeyFlag = true; // Flag to maintain enter key press for next turn
+
 $(document).ready(function(){
 
     // This call is made at the start to get all game settings from server
@@ -40,10 +42,15 @@ $(document).ready(function(){
         farmDetails = {
             eaters
         };
+
+        // Allow next turn only when ready
+        $('#feed-anyone').prop('disabled', false);
     });
 
 
     $('#feed-anyone').on('click', function(){
+        // Allow next turn only when ready
+        $('#feed-anyone').prop('disabled', true);
 
         // Get the details after a turn 
         $.post(
@@ -72,6 +79,7 @@ $(document).ready(function(){
                             if (farmEntities[j] == farmerTitle) {
                                 // Handle scenario via JS and display message
                                 // farmerDeadFlag = true;
+                                enterKeyFlag = false;
                             }
                             cellValue = 'Dead';
                             cellColor = 'style="background-color:red"';
@@ -84,9 +92,48 @@ $(document).ready(function(){
                     tableRowsHtml = tableRowsHtml + '</tr>';
                     $('#fed-chart').append(tableRowsHtml);
 
+                    // If you want to handle it in JS, kindly uncomment the Js code
+                    // Handle scenario via JS and display message
+                    /*if (farmerDeadFlag) {
+                        farmGameAlert('Farmer Dead. Game Over', 'result');
+                    }*/
 
                     if (farmDetails['turnCount'] == totalturnCount) {
+                        enterKeyFlag = false;
+                        // Handle scenario via JS and display message
+                        /*for (var k in farmWinEntities) {
+                            var winFlag = false;
+                            for (var d in farmDetails['eaters']) {
+                                if (d.indexOf(farmWinEntities[k]) > -1) {
+                                    winFlag = true;
+                                    break;
+                                }
+                            }
+                            if (winFlag == false) {
+                                break;
+                            }
+                        }
+                        if (winFlag == true) {
+                            farmGameAlert('You win.', 'win')
+                        }*/
+
+                        // Handle message via JS
+                        // farmGameAlert('Game Over', 'result');
                         $('#feed-anyone').prop('disabled', true);
+                    }
+                    // Display messages from server
+                    var message = '';
+                    for (var b in farmDetails['message']['msg']) {
+                        message = message + '<br/>'
+                            + farmDetails['message']['msg'][b];
+                    }
+                    farmGameAlert(message, 'msg');
+
+                    farmGameAlert(farmDetails['message']['status'], 'result');
+
+                    // Allow next turn only when ready
+                    if (farmDetails['message']['status'] == 'Play again') {
+                        $('#feed-anyone').prop('disabled', false);
                     }
                 }
             }
@@ -99,6 +146,12 @@ $(document).ready(function(){
 
     });
 
+    // Allow next turn on Enter Key Press
+    $(document).keypress(function(e) {
+        if(e.which == 13 && enterKeyFlag) {
+            $('#feed-anyone').trigger("click");
+        }
+    });
 
     // Restart the game whenever required
     $('#restart-game').on('click', function() {

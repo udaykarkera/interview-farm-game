@@ -15,6 +15,12 @@ Class FarmGame extends Farm {
     // Plus minus the values to maintain min win ones required
     protected $farm_win_entities = ['Farmer','Cow','Bunny'];
 
+    // Display status and message as per the current scenario
+    public $game_msg = [
+        'msg' => [],
+        'status' => 'Play again'
+    ];
+
     /**
      * Fetch the Game Details here to play
      * This gives the initial setup config for the UI
@@ -73,6 +79,29 @@ Class FarmGame extends Farm {
         $this->fed_to = $only_eaters_arr[$get_rand_eater_key];
     }
 
+    public function checkIfWon() {
+        if ($this->turn_count == $this->total_turn_count) {
+
+            if (empty(array_diff($this->farm_win_entities,
+                array_unique($this->c_alive))))
+                $this->game_msg['status'] = 'You win.';
+            else $this->game_msg['status'] = 'Game Over. You Didn\'t Win';
+        }
+    }
+
+    public function deathMessages() {
+        foreach ($this->dead as $entity_name) {
+            $this->game_msg['msg'][] = 'Dead: '. $entity_name;
+            if ($entity_name == $this->farmer_title)
+                $this->game_msg['status'] = 'Game Over. You Didn\'t Win';
+        }
+    }
+
+    public function setRoundMessages() {
+        $this->game_msg['msg'][] = 'Fed: '. $this->fed_to; // who was fed
+        $this->checkIfWon(); // Check if won
+        $this->deathMessages(); // The ones who died
+    }
 
     // send response for the particular scenario
     public function endCurrentTurn() {

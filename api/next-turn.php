@@ -25,6 +25,8 @@ if ($game_obj->validateInput($input)) {
 
     $game_obj->playTurn();
 
+    // set messages for the round
+    $game_obj->setRoundMessages();
 
     // Separated response module function
     $game_obj->endCurrentTurn();
