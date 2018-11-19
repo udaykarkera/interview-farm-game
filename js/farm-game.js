@@ -36,7 +36,31 @@ $(document).ready(function(){
         tableHeaderHtml = tableHeaderHtml + '</tr>';
         $('#fed-chart').append(tableHeaderHtml);
 
+        // Object to used to send as response
+        farmDetails = {
+            eaters
+        };
     });
+
+
+    $('#feed-anyone').on('click', function(){
+
+        // Get the details after a turn 
+        $.post(
+            "api/next-turn.php",
+            farmDetails,
+            function(data, status){
+                if (data['status'] == 'Invalid Input') {
+                    alert('Invalid input. Kindly contact authorized technician.')
+                }
+                else {
+                }
+            }
+        );
+
+
+    });
+
 
     // Restart the game whenever required
     $('#restart-game').on('click', function() {
