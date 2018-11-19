@@ -21,12 +21,24 @@ Class FarmPlay extends FarmGame {
     public function playTurn() {
         $this->randomMemberToBeFed();
         foreach ($this->eaters_turn_count as $entity_name => $ent_turn_count) {
+            /**
+             * PHP Skill: use native functions
+             * Convert to lowercase
+             * Then first letter to uppercase
+             * Then break string to array
+             */
             $entity_name_arr = explode(' ',ucfirst(strtolower($entity_name)));
             $entity = $entity_name_arr[0];
             $name = '';
             if ($entity != $this->farmer_title)
                 $name = '_' . $entity_name_arr[1];
 
+            /**
+             * Skill: Use Factory Design Pattern
+             * Based on the Farm Member
+             * that particular farm member class is called
+             * for operation specific to it
+             */
             // Create player objects
             $obj_name = $entity . $name . '_obj';
             $$obj_name = new $entity();

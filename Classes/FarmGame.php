@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Extending Farm Class
+ * I am inheriting the properties and methods
+ * of Farm Class
+ */
 Class FarmGame extends Farm {
 
     public $eaters_turn_count = [];
@@ -82,6 +87,13 @@ Class FarmGame extends Farm {
     public function checkIfWon() {
         if ($this->turn_count == $this->total_turn_count) {
 
+            /**
+             * PHP Skill: use native functions
+             * Categories could be duplicated in operations
+             * So made sure they are unique
+             * By checking the difference in arrays
+             * making sure min win condition is accomplished
+             */
             if (empty(array_diff($this->farm_win_entities,
                 array_unique($this->c_alive))))
                 $this->game_msg['status'] = 'You win.';
