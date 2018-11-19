@@ -25,10 +25,12 @@ Class TestBase {
         $this->checkOperation($this->f_input, false, 'Wrong Inputs');
     }
 
+    // Message to be displayed when the test is Ok
     public function successResult($key, $msg) {
         $this->result[] = "Input: ($msg) " . $key . ' Test Ok.';
     }
 
+    // Message to be displayed when the test has failed
     public function failedResult($value, $key, $msg) {
         /**
          * PHP Skill

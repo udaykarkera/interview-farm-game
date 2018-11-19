@@ -20,6 +20,12 @@ Class TestCheckDeath extends TestBase {
             $farm_mem_obj = new $farm_mem();
             foreach ($input as $key => $value) {
                 $deadFlag = false;
+
+                /**
+                 * This checks when the farm member
+                 * will die. It has different limits 10,20,30
+                 * and will output that farm member has died within this limit
+                 */
                 for ($i =0; $i <= $value; ++$i) {
                     $farm_mem_obj->cur_turn_count = $i;
                     if ($farm_mem_obj->checkIfDead()) {

@@ -85,6 +85,11 @@ Class TestValidateInput extends TestBase
             $response_value = $os->validateInput($value);
             $this->result[] = 'Test: ' . $test_type;
             $msg = 'Turn Count';
+            /**
+             * This checks whether the response
+             * for different kind of input is correct
+             * or not
+             */
             if ($response_value === $match) $this->successResult($key, $msg);
             else $this->failedResult($value, $key, $msg);
         }

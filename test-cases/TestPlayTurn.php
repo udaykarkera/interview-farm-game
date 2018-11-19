@@ -57,11 +57,23 @@ Class TestPlayTurn extends TestBase
                 $this->result[] = 'Test: ' . $test_type;
                 foreach ($response_value as $res_key => $res_value) {
                     $msg = "Eaters: ($res_key)";
+
+                    /**
+                     * This checks when the turn count for each
+                     * farm member after each turn is correct or not.
+                     * 
+                     */
                     if ($res_value == 0 || $res_value == $value['eaters'][$res_key] + 1)
                         $this->successResult($key, $msg);
                     else
                         $this->failedResult($value, $key, $msg);
                 }
+
+                /**
+                 * This checks when the turn count of the
+                 * entire game after each turn is correct or not.
+                 * 
+                 */
                 if (isset($value['turnCount'])) {
                     $msg = 'Turn Count =+ 1';
                     if ($value['turnCount'] + 1 == $response_turn_count )
