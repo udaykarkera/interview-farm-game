@@ -30,8 +30,14 @@ Class TestBase {
     }
 
     public function failedResult($value, $key, $msg) {
+        /**
+         * PHP Skill
+         * A string in quotes if has a variable placed in
+         * double quotes else
+         * single quotes.
+         */
         $this->result[] = "Input: ($msg) " . $key . ' Test Failed.';
-        $this->result[] = "Request: " . json_encode($value);
+        $this->result[] = 'Request: ' . json_encode($value);
     }
 
 }
