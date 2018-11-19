@@ -70,7 +70,10 @@ Class TestValidateInput extends TestBase
     ];
 
     public function test() {
+
+        // Try hiting with the right inputs
         $this->testRightInputs();
+        // Try hiting with the wrong inputs
         $this->testFalseInputs();
         TestGeneral::printLines($this->result);
     }
